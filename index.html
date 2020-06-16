@@ -6,6 +6,7 @@
     <script>
         const VYSKA_HRACE = 40;
         const SIRKA_HRACE = 10;
+        const POLOMER_MICE = 10;
         let cnv,ctx;
         let hrac1,hrac2,mic;
         function inicializujHru() {
@@ -29,6 +30,13 @@
             hrac2.dolu=false;
             hrac2.nahoru=false;
             hrac2.body=0;
+            //inicializace mice
+            mic = {};
+            mic.x = cnv.width / 2;
+            mic.y = cnv.height / 2;
+            mic.r = POLOMER_MICE;
+            mic.vx = Math.random()*10-5;
+            mic.vy = Math.random()*10-5;
         }
         function nakresliHrace(hrac) {
             if (hrac.nahoru == true) {
@@ -72,11 +80,20 @@
                 hrac2.dolu=false;
             }
         }
+        function nakresliMic() {
+            mic.x = mic.x + mic.vx;
+            mic.y = mic.y + mic.vy;
+            ctx.beginPath();
+            ctx.fillStyle = "red";
+            ctx.arc(mic.x,mic.y,mic.r,0,2*Math.PI);
+            ctx.fill();
+        }
         function zaktualizujHru() {
             ctx.clearRect(0, 0, cnv.width, cnv.height);
 
             nakresliHrace(hrac1);
             nakresliHrace(hrac2);
+            nakresliMic();
         }
         function startHry() {
             inicializujHru();
