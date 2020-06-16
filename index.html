@@ -98,6 +98,15 @@
                 zaktualizujStav();
                 novyMic();
             }
+            //odrazeni od leveho hrace
+            if ((mic.x - mic.r <= hrac1.x + hrac1.sirka/2) && (mic.y >= hrac1.y) && (mic.y <= hrac1.y + hrac1.vyska)) {
+                mic.vx = -1 * mic.vx;
+            }
+            //odrazeni od praveho hrace
+            if ((mic.x + mic.r >= hrac2.x - hrac2.sirka/2) && (mic.y >= hrac2.y) && (mic.y <= hrac2.y + hrac2.vyska)) {
+                mic.vx = -1 * mic.vx;
+            }
+            //odrazeni od horni nebo dolni hrany
             if (mic.y - mic.r <= 0 || mic.y + mic.r >= cnv.height) {
                 mic.vy = -1 * mic.vy;
             }
