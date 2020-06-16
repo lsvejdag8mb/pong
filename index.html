@@ -32,11 +32,9 @@
             hrac2.body=0;
             //inicializace mice
             mic = {};
-            mic.x = cnv.width / 2;
-            mic.y = cnv.height / 2;
-            mic.r = POLOMER_MICE;
-            mic.vx = Math.random()*10-5;
-            mic.vy = Math.random()*10-5;
+            novyMic();
+
+            zaktualizujStav();
         }
         function nakresliHrace(hrac) {
             if (hrac.nahoru == true) {
@@ -80,9 +78,26 @@
                 hrac2.dolu=false;
             }
         }
+        function novyMic() {
+            mic.x = cnv.width / 2;
+            mic.y = cnv.height / 2;
+            mic.r = POLOMER_MICE;
+            mic.vx = Math.random()*10-5;
+            mic.vy = Math.random()*10-5;
+        }
         function nakresliMic() {
             mic.x = mic.x + mic.vx;
             mic.y = mic.y + mic.vy;
+            if (mic.x - mic.r <= 0) {
+                hrac2.body++;
+                zaktualizujStav();
+                novyMic();
+            }
+            if (mic.x + mic.r >= cnv.width) {
+                hrac1.body++;
+                zaktualizujStav();
+                novyMic();
+            }
             if (mic.y - mic.r <= 0 || mic.y + mic.r >= cnv.height) {
                 mic.vy = -1 * mic.vy;
             }
@@ -97,6 +112,9 @@
             nakresliHrace(hrac1);
             nakresliHrace(hrac2);
             nakresliMic();
+        }
+        function zaktualizujStav() {
+            document.getElementById("stav").innerHTML = hrac1.body + " : " + hrac2.body;
         }
         function startHry() {
             inicializujHru();
