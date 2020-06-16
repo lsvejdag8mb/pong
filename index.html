@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Pong</title>
+    <script>
+        const VYSKA_HRACE = 40;
+        const SIRKA_HRACE = 10;
+        let cnv,ctx;
+        let hrac1,hrac2,mic;
+        function inicializujHru() {
+            cnv = document.getElementById("platno");
+            ctx = cnv.getContext("2d");
+            //inicializace leveho hrace
+            hrac1 = {};
+            hrac1.x = 10;
+            hrac1.y = cnv.height / 2;
+            hrac1.vyska = VYSKA_HRACE;
+            hrac1.sirka = SIRKA_HRACE;
+            hrac1.dolu=false;
+            hrac1.nahoru=false;
+            hrac1.body=0;
+            //inicializace praveho hrace
+            hrac2 = {};
+            hrac2.x = cnv.width - 10;
+            hrac2.y = cnv.height / 2;
+            hrac2.vyska = VYSKA_HRACE;
+            hrac2.sirka = SIRKA_HRACE;
+            hrac2.dolu=false;
+            hrac2.nahoru=false;
+            hrac2.body=0;
+        }
+        function nakresliHrace(hrac) {
+            if (hrac.nahoru == true) {
+                hrac.y = hrac.y -4;
+            }
+            if (hrac.dolu == true) {
+                hrac.y = hrac.y +4;
+            }
+            ctx.beginPath();
+            ctx.lineWidth = hrac.sirka;
+            ctx.strokeStyle = "blue";
+            ctx.moveTo(hrac.x,hrac.y);
+            ctx.lineTo(hrac.x,hrac.y+hrac.vyska);
+            ctx.stroke();
+        }
+        function klavesaDolu(event) {
+            if (event.key == "q") {
+                hrac1.nahoru=true;
+            }
+            if (event.key == "a") {
+                hrac1.dolu=true;
+            }
+            if (event.key == "p") { //"ArrowUp"
+                hrac2.nahoru=true;
+            }
+            if (event.key == "l") { //"ArrowDown"
+                hrac2.dolu=true;
+            }
+        }
+        function klavesaNahoru(event) {
+            if (event.key == "q") {
+                hrac1.nahoru=false;
+            }
+            if (event.key == "a") {
+                hrac1.dolu=false;
+            }
+            if (event.key == "p") { //"ArrowUp"
+                hrac2.nahoru=false;
+            }
+            if (event.key == "l") { //"ArrowDown"
+                hrac2.dolu=false;
+            }
+        }
+        function zaktualizujHru() {
+            ctx.clearRect(0, 0, cnv.width, cnv.height);
+
+            nakresliHrace(hrac1);
+            nakresliHrace(hrac2);
+        }
+        function startHry() {
+            inicializujHru();
+            setInterval(zaktualizujHru, 25);
+        }
+    </script>
+</head>
+<body onload="startHry()" onkeydown="klavesaDolu(event)" onkeyup="klavesaNahoru(event)">
+
+<h1>Pong</h1>
+<h2 id="stav"></h2>
+Ovládání: hráč 1...<b>q</b>/<b>a</b>, hráč 2...<b>p</b>/<b>l</b><br>
+<canvas id="platno" width="400" height="300"
+        style="background-color: lightcyan"></canvas>
+
+</body>
+</html>
