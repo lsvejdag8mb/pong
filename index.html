@@ -83,6 +83,9 @@
         function nakresliMic() {
             mic.x = mic.x + mic.vx;
             mic.y = mic.y + mic.vy;
+            if (mic.y - mic.r <= 0 || mic.y + mic.r >= cnv.height) {
+                mic.vy = -1 * mic.vy;
+            }
             ctx.beginPath();
             ctx.fillStyle = "red";
             ctx.arc(mic.x,mic.y,mic.r,0,2*Math.PI);
